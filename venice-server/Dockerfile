@@ -12,7 +12,7 @@ RUN apt-get update && \
 
 WORKDIR ${VENICE_DIR}
 
-RUN wget -q -O ${VENICE_DIR}/bin/venice-server-all.jar https://repo1.maven.org/maven2/com/venice/venice-server/${VENICE_VERSION}/venice-server-${VENICE_VERSION}-all.jar
+RUN wget -q -O ${VENICE_DIR}/bin/venice-server-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-server/${VENICE_VERSION}/venice-server-${VENICE_VERSION}-all.jar
 COPY venice-server-all.jar bin/venice-server-all.jar
 COPY *py bin/
 COPY single-dc-configs configs/single-dc

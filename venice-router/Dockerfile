@@ -12,7 +12,7 @@ RUN apt-get update && \
 
 WORKDIR ${VENICE_DIR}
 
-RUN wget -q -O ${VENICE_DIR}/bin/venice-router-all.jar https://repo1.maven.org/maven2/com/venice/venice-router/${VENICE_VERSION}/venice-router-${VENICE_VERSION}-all.jar
+RUN wget -q -O ${VENICE_DIR}/bin/venice-router-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-router/${VENICE_VERSION}/venice-router-${VENICE_VERSION}-all.jar
 COPY *py bin/
 COPY single-dc-configs configs/single-dc
 COPY multi-dc-configs configs/multi-dc

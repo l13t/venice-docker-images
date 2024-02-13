@@ -78,7 +78,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ matrix.image }}:${{ env.VENICE_VERSION }},${{ matrix.image }}:latest
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           build-args: |
             RELEASE_DATE=${{ env.RELEASE_DATE }}
             VENICE_VERSION=${{ env.VENICE_VERSION }}

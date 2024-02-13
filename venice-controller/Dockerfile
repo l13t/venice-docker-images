@@ -13,7 +13,7 @@ RUN apt-get update && \
 WORKDIR ${VENICE_DIR}
 
 RUN wget -q -O ${VENICE_DIR}/bin/venice-controller-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-controller/${VENICE_VERSION}/venice-controller-${VENICE_VERSION}-all.jar
-COPY ../*py bin/
+COPY *py bin/
 COPY single-dc-configs configs/single-dc
 COPY multi-dc-configs configs/multi-dc
 

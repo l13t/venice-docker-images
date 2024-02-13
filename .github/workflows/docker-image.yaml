@@ -1,0 +1,84 @@
+name: Docker
+
+on:
+  push:
+    branches: [master]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./venice-client/Dockerfile
+            image: ghcr.io/l13t/venice-client
+            context: ./venice-client
+          - dockerfile: ./venice-controller/Dockerfile
+            image: ghcr.io/l13t/venice-controller
+            context: ./venice-controller
+          - dockerfile: ./venice-router/Dockerfile
+            image: ghcr.io/l13t/venice-router
+            context: ./venice-router
+          - dockerfile: ./venice-server/Dockerfile
+            image: ghcr.io/l13t/venice-server
+            context: ./venice-server
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: set release date
+        run: |
+          echo "RELEASE_DATE=$(date '+%Y%m%d')" >> ${GITHUB_ENV}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.image }}
+
+      - name: Set global variables
+        run: |
+          cat global_vars >> $GITHUB_ENV
+
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ matrix.image }}:${{ env.VENICE_VERSION }},${{ matrix.image }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            RELEASE_DATE=${RELEASE_DATE}
+            VENICE_VERSION=${VENICE_VERSION}

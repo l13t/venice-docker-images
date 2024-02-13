@@ -80,5 +80,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           build-args: |
-            RELEASE_DATE=${RELEASE_DATE}
-            VENICE_VERSION=${VENICE_VERSION}
+            RELEASE_DATE=${{ env.RELEASE_DATE }}
+            VENICE_VERSION=${{ env.VENICE_VERSION }}

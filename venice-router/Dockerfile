@@ -14,6 +14,7 @@ WORKDIR ${VENICE_DIR}
 
 RUN wget -q -O ${VENICE_DIR}/bin/venice-router-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-router/${VENICE_VERSION}/venice-router-${VENICE_VERSION}-all.jar
 COPY *py bin/
+RUN chmod +x bin/*.py
 COPY single-dc-configs configs/single-dc
 COPY multi-dc-configs configs/multi-dc
 

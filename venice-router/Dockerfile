@@ -5,7 +5,7 @@ ARG VENICE_VERSION
 
 #hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install --no-install-recommends tree python3 -y && \
+    apt-get install --no-install-recommends tree wget python3 -y && \
     mkdir -p ${VENICE_DIR}/bin && \
     mkdir -p ${VENICE_DIR}/configs && \
     rm -rf /var/lib/apt/lists/*

@@ -16,7 +16,9 @@ RUN mkdir -p "${VENICE_DIR}/bin" && \
 
 WORKDIR ${VENICE_DIR}
 
-RUN for i in 'venice-push-job' 'venice-thin-client' 'venice-admin-tool'; do wget -q -O ${VENICE_DIR}/bin/${i}-all.jar https://repo1.maven.org/maven2/com/venice/${i}/${VENICE_VERSION}/${i}-${VENICE_VERSION}-all.jar; done
+RUN wget -q -O ${VENICE_DIR}/bin/venice-push-job-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-push-job/${VENICE_VERSION}/venice-push-job-${VENICE_VERSION}-all.jar && \
+    wget -q -O ${VENICE_DIR}/bin/venice-thin-client-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-thin-client/${VENICE_VERSION}/venice-thin-client-${VENICE_VERSION}-all.jar && \
+    wget -q -O ${VENICE_DIR}/bin/venice-admin-tool-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-admin-tool/${VENICE_VERSION}/venice-admin-tool-${VENICE_VERSION}-all.jar
 
 COPY sample-data sample-data
 COPY run-vpj.sh .

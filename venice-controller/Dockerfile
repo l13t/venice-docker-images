@@ -12,7 +12,8 @@ RUN apt-get update && \
 
 WORKDIR ${VENICE_DIR}
 
-RUN wget -q -O ${VENICE_DIR}/bin/venice-controller-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-controller/${VENICE_VERSION}/venice-controller-${VENICE_VERSION}-all.jar
+RUN wget -q -O /opt/venice/bin/jmx_prometheus_javaagent.jar https://repo.maven.apache.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar && \
+    wget -q -O ${VENICE_DIR}/bin/venice-controller-all.jar https://linkedin.jfrog.io/artifactory/venice/com/linkedin/venice/venice-controller/${VENICE_VERSION}/venice-controller-${VENICE_VERSION}-all.jar
 COPY *py bin/
 RUN chmod +x bin/*.py
 COPY single-dc-configs configs/single-dc

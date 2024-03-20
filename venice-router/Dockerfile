@@ -18,5 +18,6 @@ COPY *py bin/
 RUN chmod +x bin/*.py
 COPY single-dc-configs configs/single-dc
 COPY multi-dc-configs configs/multi-dc
+COPY prometheus_config.yaml /opt/venice/bin
 
 CMD ["java", "-jar", "bin/venice-router-all.jar", "configs/single-dc/router.properties"]

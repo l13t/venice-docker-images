@@ -10,7 +10,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN wget -q -O /tmp/spark.tgz https://dlcdn.apache.org/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz && \
-    tar xvf /tmp/spark.tgz -C /opt/spark && \
+    tar -xvf /tmp/spark.tgz -C /opt/spark && \
     rm /tmp/spark.tgz
 
 RUN mkdir -p "${VENICE_DIR}/bin" && \

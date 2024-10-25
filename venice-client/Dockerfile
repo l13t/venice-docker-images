@@ -5,8 +5,13 @@ ARG VENICE_VERSION
 
 #hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y netcat tree wget python3 && \
+    apt-get install --no-install-recommends -y netcat tree wget python3 python3-pip && \
+    pip install spark-submit && \
     rm -rf /var/lib/apt/lists/*
+
+RUN wget -q -O /tmp/spark.tgz https://dlcdn.apache.org/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz && \
+    tar xvf /tmp/spark.tgz -C /opt/spark && \
+    rm /tmp/spark.tgz
 
 RUN mkdir -p "${VENICE_DIR}/bin" && \
     wget -q -O ${VENICE_DIR}/bin/avro-tools.jar https://repo1.maven.org/maven2/org/apache/avro/avro-tools/1.11.2/avro-tools-1.11.2.jar && \

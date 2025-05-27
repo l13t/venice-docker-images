@@ -9,7 +9,10 @@ RUN apt-get update && \
     pip install spark-submit && \
     rm -rf /var/lib/apt/lists/*
 
-RUN wget -q -O /tmp/spark.tgz https://dlcdn.apache.org/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz && \
+# RUN wget -q -O /tmp/spark.tgz https://dlcdn.apache.org/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz && \
+
+# We're using the archive.apache.org link to ensure that the Spark version is always available.
+RUN wget -q -O /tmp/spark.tgz https://archive.apache.org/dist/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz && \
     mkdir /opt/spark && \
     tar -xvf /tmp/spark.tgz -C /opt/spark && \
     rm /tmp/spark.tgz
